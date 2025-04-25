@@ -1,0 +1,24 @@
+# Ignore Node.js dependencies
+node_modules
+
+# Ignore logs
+logs
+*.log
+
+# Ignore environment files
+.env
+.env.local
+
+# Ignore local development files
+.DS_Store
+.vscode
+.idea
+
+# Ignore git and Docker files
+.git
+.gitignore
+.dockerignore
+
+# Ignore build files
+dist
+build
