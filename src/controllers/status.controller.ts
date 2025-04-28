@@ -1,15 +1,19 @@
 import { Request, Response } from "express";
 import * as StatusService from "../services/status.service";
-import { createReportStatusInput, updateReportStatusInput } from "../validation/status.validation";
+import { createStatusInput, updateStatusInput, createStatusSchema } from "../validation/status.validation";
 
 // Create report status
-export const createReportStatus = async (
-  req: Request<{}, {}, createReportStatusInput>,
+export const createStatus = async (
+  req: Request<{}, {}, createStatusInput>,
   res: Response
 ): Promise<void> => {
   try {
-    const item = await StatusService.createReportStatus(req.body,req.query);
-    res.status(201).json(item); // Send response directly, no return needed
+    createStatusSchema.parse({
+      body: req.body,
+      query: req.query,
+    });
+    const item = await StatusService.createStatus(req.body,req.query as { type: string });
+    res.status(201).json({data : "status created"});
   } catch (error: unknown) {
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
@@ -20,10 +24,10 @@ export const createReportStatus = async (
 };
 
 // Get all report status
-export const getReportStatus = async (_req: Request, res: Response): Promise<void> => {
+export const getStatus = async (req: Request, res: Response): Promise<void> => {
   try {
-    const items = await StatusService.getReportStatus();
-    res.json(items); // Send response directly, no return needed
+    const items = await StatusService.getStatus(req.query as { type: string });
+    res.json({data : items}); // Send response directly, no return needed
   } catch (error: unknown) {
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
@@ -34,17 +38,17 @@ export const getReportStatus = async (_req: Request, res: Response): Promise<voi
 };
 
 // Get report status by ID
-export const getReportStatusById = async (
+export const getStatusById = async (
   req: Request<{ id: string }>,
   res: Response
 ): Promise<void> => {
   try {
-    const item = await StatusService.getReportStatusById(req.params.id);
+    const item = await StatusService.getStatusById(req.params.id,req.query as { type: string });
     if (!item) {
-      res.status(404).json({ error: "Item not found" });
+      res.status(404).json({ error: "status not found" });
       return;
     }
-    res.json(item); // Send response directly, no return needed
+    res.json({data : item}); // Send response directly, no return needed
   } catch (error: unknown) {
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
@@ -54,18 +58,18 @@ export const getReportStatusById = async (
   }
 };
 
-// Delete Item
-export const deleteReportStatus = async (
+// Delete status
+export const deleteStatus = async (
   req: Request<{ id: string }>,
   res: Response
 ): Promise<void> => {
   try {
-    const item = await StatusService.deleteReportStatus(req.params.id);
+    const item = await StatusService.deleteStatus(req.params.id,req.query as { type: string });
     if (!item) {
-      res.status(404).json({ error: "Item not found" });
+      res.status(404).json({ error: "status not found" });
       return;
     }
-    res.json({ message: "Item deleted" }); // Send response directly, no return needed
+    res.json({ data : "status deleted" }); // Send response directly, no return needed
   } catch (error: unknown) {
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
@@ -75,18 +79,18 @@ export const deleteReportStatus = async (
   }
 };
 
-// Update Item
-export const updateReportStatus = async (
-  req: Request<{ id: string }, {}, updateReportStatusInput>,
+// Update status
+export const updateStatus = async (
+  req: Request<{ id: string }, {}, updateStatusInput>,
   res: Response
 ): Promise<void> => {
   try {
-    const item = await StatusService.updateReportStatus(req.params.id, req.body);
+    const item = await StatusService.updateStatus(req.params.id, req.body, req.query as { type: string });
     if (!item) {
-      res.status(404).json({ error: "Item not found" });
+      res.status(404).json({ error: "status not found" });
       return;
     }
-    res.json(item); // Send response directly, no return needed
+    res.json({ data : item }); // Send response directly, no return needed
   } catch (error: unknown) {
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });

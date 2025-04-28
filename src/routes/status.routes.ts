@@ -1,14 +1,14 @@
 import { Router } from "express";
 import * as StatusController from "../controllers/status.controller";
 import validate from "../middleware/validate";
-import { createReportStatusSchema, updateReportStatusSchema } from "../validation/status.validation";
+import { createStatusSchema, updateStatusSchema, getStatusSchema, getAllStatusSchema, deleteStatusSchema } from "../validation/status.validation";
 
 const router = Router();
 
-router.post("/report", validate(createReportStatusSchema), StatusController.createReportStatus);
-router.get("/report", StatusController.getReportStatus);
-router.get("/report/:id", StatusController.getReportStatusById);
-router.put("/report/:id", validate(updateReportStatusSchema), StatusController.updateReportStatus);
-router.delete("/report/:id", StatusController.deleteReportStatus);
+router.post("/", validate(createStatusSchema), StatusController.createStatus);
+router.get("/", validate(getAllStatusSchema), StatusController.getStatus);
+router.get("/:id", validate(getStatusSchema), StatusController.getStatusById);
+router.put("/:id", validate(updateStatusSchema), StatusController.updateStatus);
+router.delete("/:id", validate(deleteStatusSchema), StatusController.deleteStatus);
 
 export default router;
