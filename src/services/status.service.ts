@@ -2,7 +2,9 @@ import { ReportStatusModel } from "../models/status.model"; // Adjusted import
 import { ReportStatus } from "../models/status.model"; 
 import { ReportStatusDTO } from "../types/status.d";
 
-export const createReportStatus = async (data: ReportStatusDTO): Promise<ReportStatus> => {
+export const createReportStatus = async (data: ReportStatusDTO, type: any): Promise<ReportStatus> => {
+  console.log("🚀 ~ createReportStatus ~ type:", type)
+  console.log("🚀 ~ createReportStatus ~ data:", data)
   const item = new ReportStatusModel(data);
   return item.save();
 };

@@ -5,6 +5,9 @@ export const createReportStatusSchema = z.object({
     name: z.string().min(1, "Name is required"),
     isEnabled: z.boolean().optional(),
   }),
+  query: z.object({
+    type: z.string(),
+  }),
 });
 
 export const updateReportStatusSchema = z.object({

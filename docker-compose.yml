@@ -13,7 +13,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
 
   mongo-service:
-    image: santoshsahubb/mongo-service:1.0.0
+    image: santoshsahubb/mongo-service:1.0.1
     container_name: mongo-service
     ports:
       - "3000:3000"

@@ -8,7 +8,7 @@ export const createReportStatus = async (
   res: Response
 ): Promise<void> => {
   try {
-    const item = await StatusService.createReportStatus(req.body);
+    const item = await StatusService.createReportStatus(req.body,req.query);
     res.status(201).json(item); // Send response directly, no return needed
   } catch (error: unknown) {
     if (error instanceof Error) {
